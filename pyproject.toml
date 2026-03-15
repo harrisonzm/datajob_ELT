@@ -16,6 +16,7 @@ pydantic = "^2.12.5"
 python-dotenv = "^1.2.2"
 dbt = "^1.0.0"
 pytest = "^9.0.2"
+pandas = "^3.0.1"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
