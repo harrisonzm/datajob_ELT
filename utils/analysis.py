@@ -1,3 +1,122 @@
+def salary_by_job_category_analysis():
+    """
+    Analiza por cada categoría de job_title_short cuántas filas tienen 
+    valor en salary_year_avg o salary_hour_avg
+    """
+    import pandas as pd
+
+    df = pd.read_csv('./data_jobs.csv')
+    
+    print('ANÁLISIS DE SALARIOS POR CATEGORÍA DE TRABAJO')
+    print('=' * 60)
+    
+    # Crear máscaras para identificar filas con salarios
+    has_year_salary = df['salary_year_avg'].notna()
+    has_hour_salary = df['salary_hour_avg'].notna()
+    has_any_salary = has_year_salary | has_hour_salary
+    has_both_salaries = has_year_salary & has_hour_salary
+    
+    # Agrupar por job_title_short y calcular estadísticas
+    salary_stats = df.groupby('job_title_short').agg({
+        'salary_year_avg': ['count', 'mean', 'median'],
+        'salary_hour_avg': ['count', 'mean', 'median']
+    }).round(2)
+    
+    # Calcular estadísticas adicionales por categoría
+    category_analysis = []
+    
+    for category in df['job_title_short'].unique():
+        if pd.isna(category):
+            continue
+            
+        category_df = df[df['job_title_short'] == category]
+        total_jobs = len(category_df)
+        
+        # Contar diferentes tipos de salarios
+        year_count = category_df['salary_year_avg'].notna().sum()
+        hour_count = category_df['salary_hour_avg'].notna().sum()
+        any_salary_count = (category_df['salary_year_avg'].notna() | 
+                           category_df['salary_hour_avg'].notna()).sum()
+        both_salary_count = (category_df['salary_year_avg'].notna() & 
+                            category_df['salary_hour_avg'].notna()).sum()
+        no_salary_count = total_jobs - any_salary_count
+        
+        # Calcular porcentajes
+        year_pct = (year_count / total_jobs * 100) if total_jobs > 0 else 0
+        hour_pct = (hour_count / total_jobs * 100) if total_jobs > 0 else 0
+        any_salary_pct = (any_salary_count / total_jobs * 100) if total_jobs > 0 else 0
+        
+        category_analysis.append({
+            'job_category': category,
+            'total_jobs': total_jobs,
+            'with_year_salary': year_count,
+            'with_hour_salary': hour_count,
+            'with_any_salary': any_salary_count,
+            'with_both_salaries': both_salary_count,
+            'no_salary': no_salary_count,
+            'year_salary_pct': round(year_pct, 2),
+            'hour_salary_pct': round(hour_pct, 2),
+            'any_salary_pct': round(any_salary_pct, 2)
+        })
+    
+    # Convertir a DataFrame para mejor visualización
+    analysis_df = pd.DataFrame(category_analysis)
+    analysis_df = analysis_df.sort_values('total_jobs', ascending=False)
+    
+    # Mostrar resumen general
+    print(f"Total de categorías de trabajo: {len(analysis_df)}")
+    print(f"Total de trabajos analizados: {df.shape[0]}")
+    print(f"Trabajos con salary_year_avg: {df['salary_year_avg'].notna().sum()}")
+    print(f"Trabajos con salary_hour_avg: {df['salary_hour_avg'].notna().sum()}")
+    print(f"Trabajos con cualquier salario: {has_any_salary.sum()}")
+    print(f"Trabajos con ambos salarios: {has_both_salaries.sum()}")
+    print()
+    
+    # Mostrar análisis detallado por categoría
+    print("ANÁLISIS DETALLADO POR CATEGORÍA:")
+    print("-" * 100)
+    print(f"{'Categoría':<25} {'Total':<8} {'Year':<6} {'Hour':<6} {'Any':<6} {'Both':<6} {'None':<6} {'%Year':<7} {'%Hour':<7} {'%Any':<7}")
+    print("-" * 100)
+    
+    for _, row in analysis_df.iterrows():
+        print(f"{row['job_category']:<25} "
+              f"{row['total_jobs']:<8} "
+              f"{row['with_year_salary']:<6} "
+              f"{row['with_hour_salary']:<6} "
+              f"{row['with_any_salary']:<6} "
+              f"{row['with_both_salaries']:<6} "
+              f"{row['no_salary']:<6} "
+              f"{row['year_salary_pct']:<7}% "
+              f"{row['hour_salary_pct']:<7}% "
+              f"{row['any_salary_pct']:<7}%")
+    
+    print("-" * 100)
+    
+    # Top 5 categorías con más trabajos
+    print("\nTOP 5 CATEGORÍAS CON MÁS TRABAJOS:")
+    top_5_jobs = analysis_df.head(5)
+    for _, row in top_5_jobs.iterrows():
+        print(f"• {row['job_category']}: {row['total_jobs']} trabajos "
+              f"({row['any_salary_pct']}% con salario)")
+    
+    # Top 5 categorías con mejor porcentaje de salarios
+    print("\nTOP 5 CATEGORÍAS CON MEJOR % DE SALARIOS:")
+    top_5_salary = analysis_df.sort_values('any_salary_pct', ascending=False).head(5)
+    for _, row in top_5_salary.iterrows():
+        print(f"• {row['job_category']}: {row['any_salary_pct']}% con salario "
+              f"({row['with_any_salary']}/{row['total_jobs']} trabajos)")
+    
+    # Categorías con peor porcentaje de salarios
+    print("\nTOP 5 CATEGORÍAS CON MENOR % DE SALARIOS:")
+    bottom_5_salary = analysis_df.sort_values('any_salary_pct', ascending=True).head(5)
+    for _, row in bottom_5_salary.iterrows():
+        print(f"• {row['job_category']}: {row['any_salary_pct']}% con salario "
+              f"({row['with_any_salary']}/{row['total_jobs']} trabajos)")
+    
+    print('=' * 60)
+    
+    return analysis_df
+
 def payment_analysis():
     import pandas as pd
 
