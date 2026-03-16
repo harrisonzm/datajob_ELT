@@ -1,7 +1,10 @@
-from utils.analysis import payment_analysis, encoding_errors, aggregation_analysis
+#!/usr/bin/env python3
 
-if __name__ == '__main__':
-    payment_analysis()
-    print('=' * 70)
-    aggregation_analysis()
-    encoding_errors()
+from Extraction.extraction import load_optimized_fast , execute_extraction
+
+def main():
+    csv_path = "data_jobs.csv"
+    execute_extraction(csv_path)
+
+if __name__ == "__main__":
+    main()
