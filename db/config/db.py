@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 
@@ -22,6 +22,9 @@ engine = create_engine(DATABASE_URL, echo=True)
 # Crear sessionmaker
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
+# MetaData compartido para todos los modelos
+metadata = MetaData()
+
 def get_db():
     """Función para obtener una sesión de base de datos"""
     db = SessionLocal()
@@ -29,3 +32,11 @@ def get_db():
         yield db
     finally:
         db.close()
+
+def create_tables():
+    """Crear todas las tablas definidas en metadata"""
+    metadata.create_all(bind=engine)
+
+def drop_tables():
+    """Eliminar todas las tablas definidas en metadata"""
+    metadata.drop_all(bind=engine)
