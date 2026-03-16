@@ -306,3 +306,11 @@ def encoding_errors():
             print(f'{i}. {example}')
     
     print('=' * 50)
+
+def skills_analysis():
+    import pandas as pd
+    df = pd.read_csv('data_jobs.csv')
+    print(df['job_skills'])
+    print(df.iloc[785739]['job_type_skills'])  # Corregido: usar corchetes en lugar de paréntesis
+    
+skills_analysis()
