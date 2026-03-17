@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: stg_job_postings
+    description: "Staging model for job postings with cleaned and standardized data"
+    columns:
+      - name: id
+        description: "Primary key from source"
+        tests:
+          - unique
+          - not_null
+
+      - name: job_title_short_clean
+        description: "Cleaned short job title category"
+
+      - name: job_title_clean
+        description: "Cleaned full job title with special characters removed"
+
+      - name: job_location_clean
+        description: "Cleaned job location string"
+
+      - name: job_via_clean
+        description: "Cleaned source platform with prefixes removed"
+
+      - name: job_schedule_type_clean
+        description: "Standardized schedule type (English only)"
+
+      - name: search_location_clean
+        description: "Cleaned search location"
+
+      - name: job_country_clean
+        description: "Cleaned country name"
+
+      - name: salary_rate_clean
+        description: "Cleaned salary rate type"
+
+      - name: company_name_clean
+        description: "Cleaned company name with special characters removed"
+
+      - name: job_skills
+        description: "Array of job skills (processed from extraction)"
+
+      - name: job_type_skills
+        description: "JSON object with skill types and their skills (processed from extraction)"
+
+  - name: stg_job_skills
+    description: "Staging model that unnests and normalizes job skills from both job_skills array and job_type_skills JSON"
+    columns:
+      - name: job_posting_id
+        description: "Reference to the original job posting"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_job_postings')
+              field: id
+
+      - name: skill_name
+        description: "Cleaned and normalized skill name (lowercase, trimmed)"
+        tests:
+          - not_null
+
+      - name: type_name
+        description: "Skill type/category (only for skills from job_type_skills JSON)"
+
+      - name: skill_source
+        description: "Source of the skill: 'direct' from job_skills array, 'typed' from job_type_skills JSON"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["direct", "typed"]

@@ -1,0 +1,60 @@
+version: 2
+
+sources:
+  - name: raw
+    description: "Raw data from job posting extraction"
+    tables:
+      - name: job_posting
+        description: "Raw job posting data with all original fields"
+        columns:
+          - name: id
+            description: "Primary key"
+            tests:
+              - not_null
+              - unique
+          - name: job_title_short
+            description: "Short job title category"
+            tests:
+              - not_null
+          - name: job_title
+            description: "Full job title"
+          - name: job_location
+            description: "Job location string"
+          - name: job_via
+            description: "Source platform (with prefixes)"
+          - name: job_schedule_type
+            description: "Schedule type (may contain non-English values)"
+          - name: job_work_from_home
+            description: "Remote work flag"
+            tests:
+              - not_null
+          - name: search_location
+            description: "Search location used"
+            tests:
+              - not_null
+          - name: job_posted_date
+            description: "Date when job was posted"
+            tests:
+              - not_null
+          - name: job_no_degree_mention
+            description: "No degree requirement flag"
+            tests:
+              - not_null
+          - name: job_health_insurance
+            description: "Health insurance offered flag"
+            tests:
+              - not_null
+          - name: job_country
+            description: "Country of the job"
+          - name: salary_rate
+            description: "Salary rate type (hour, year, etc.)"
+          - name: salary_year_avg
+            description: "Average yearly salary"
+          - name: salary_hour_avg
+            description: "Average hourly salary"
+          - name: company_name
+            description: "Company name"
+          - name: job_skills
+            description: "Array of job skills"
+          - name: job_type_skills
+            description: "JSON object with skill types and their skills"
