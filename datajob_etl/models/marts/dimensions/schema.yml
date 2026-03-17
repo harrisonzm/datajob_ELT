@@ -1,0 +1,119 @@
+version: 2
+
+models:
+  - name: dim_schedule_types
+    description: "Dimension table for job schedule types (Full-time, Part-time, etc.)"
+    columns:
+      - name: id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Schedule type name"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_companies
+    description: "Dimension table for companies"
+    columns:
+      - name: id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Company name"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_countries
+    description: "Dimension table for countries"
+    columns:
+      - name: id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Country name"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_vias
+    description: "Dimension table for job posting sources/platforms"
+    columns:
+      - name: id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Platform/source name (cleaned of prefixes)"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_short_titles
+    description: "Dimension table for job title categories"
+    columns:
+      - name: id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Short job title category"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_skills
+    description: "Dimension table for job skills"
+    columns:
+      - name: id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Skill name (normalized to lowercase)"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_types
+    description: "Dimension table for skill types/categories"
+    columns:
+      - name: id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Skill type name (programming, cloud, databases, etc.)"
+        tests:
+          - unique
+          - not_null
+
+  - name: dim_locations
+    description: "Dimension table for job locations with country reference"
+    columns:
+      - name: id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: location
+        description: "Location name"
+        tests:
+          - not_null
+      - name: country_id
+        description: "Foreign key to dim_countries"
+        tests:
+          - relationships:
+              to: ref('dim_countries')
+              field: id

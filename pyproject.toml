@@ -5,8 +5,12 @@ description = ""
 authors = ["Harrison Zuleta Montoya <harrison.zmontoya@gmail.com>"]
 readme = "README.md"
 packages = [
-    { include = "config" },
-    { include = "utils" }
+    { include = "utils" },
+    { include = "db" },
+    { include = "actions" },
+    { include = "extraction" },
+    { include = "transformation" },
+    { include = "load" }
 ]
 
 [tool.poetry.dependencies]
@@ -14,10 +18,11 @@ python = "^3.12"
 sqlalchemy = "^2.0.48"
 pydantic = "^2.12.5"
 python-dotenv = "^1.2.2"
-dbt = "^1.0.0"
 pytest = "^9.0.2"
 pandas = "^3.0.1"
 psycopg2-binary = "^2.9.11"
+dbt-core = "^1.11.7"
+dbt-postgres = "^1.10.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

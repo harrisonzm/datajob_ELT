@@ -1,0 +1,80 @@
+version: 2
+
+models:
+  - name: fact_job_posts
+    description: "Fact table containing job posting events with foreign keys to dimensions"
+    columns:
+      - name: id
+        description: "Primary key (same as original job_posting id)"
+        tests:
+          - unique
+          - not_null
+
+      - name: company_id
+        description: "Foreign key to dim_companies (nullable)"
+        tests:
+          - relationships:
+              to: ref('dim_companies')
+              field: id
+
+      - name: country_id
+        description: "Foreign key to dim_countries (nullable)"
+        tests:
+          - relationships:
+              to: ref('dim_countries')
+              field: id
+
+      - name: location_id
+        description: "Foreign key to dim_locations (nullable)"
+        tests:
+          - relationships:
+              to: ref('dim_locations')
+              field: id
+
+      - name: via_id
+        description: "Foreign key to dim_vias (nullable)"
+        tests:
+          - relationships:
+              to: ref('dim_vias')
+              field: id
+
+      - name: schedule_type_id
+        description: "Foreign key to dim_schedule_types (nullable)"
+        tests:
+          - relationships:
+              to: ref('dim_schedule_types')
+              field: id
+
+      - name: short_title_id
+        description: "Foreign key to dim_short_titles (nullable)"
+        tests:
+          - relationships:
+              to: ref('dim_short_titles')
+              field: id
+
+      - name: job_title
+        description: "Full job title (transactional data)"
+
+      - name: search_location
+        description: "Search location used"
+
+      - name: job_posted_date
+        description: "Date when job was posted"
+
+      - name: job_work_from_home
+        description: "Remote work flag"
+
+      - name: job_no_degree_mention
+        description: "No degree requirement flag"
+
+      - name: job_health_insurance
+        description: "Health insurance offered flag"
+
+      - name: salary_rate
+        description: "Salary rate type (hour, year, etc.)"
+
+      - name: salary_year_avg
+        description: "Average yearly salary"
+
+      - name: salary_hour_avg
+        description: "Average hourly salary"

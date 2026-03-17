@@ -82,19 +82,21 @@ Table types {
 
 Table job_skills {
   job_id bigint [not null]
-  skill_id bigint [not null]
+  skill_types_id bigint [not null]
 
   indexes {
-    (job_id, skill_id) [pk]
+    (job_id, skill_types_id) [pk]
   }
 }
 
 Table skill_types {
+  id bigint [not null]
   skill_id bigint [not null]
   type_id bigint [not null]
 
   indexes {
-    (skill_id, type_id) [pk]
+    id [pk]
+    (skill_id, type_id)
   }
 }
 
@@ -107,7 +109,7 @@ Ref: job_posts.location_id > locations.id
 Ref: locations.country_id > countries.id
 
 Ref: job_skills.job_id > job_posts.id
-Ref: job_skills.skill_id > skills.id
+Ref: job_skills.skill_types_id > skill_types.id
 
 Ref: skill_types.skill_id > skills.id
 Ref: skill_types.type_id > types.id
