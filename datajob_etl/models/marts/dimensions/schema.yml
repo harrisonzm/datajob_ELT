@@ -117,26 +117,3 @@ models:
           - relationships:
               to: ref('dim_countries')
               field: id
-
-  - name: dim_skill_types
-    description: "Bridge table for many-to-many relationship between skills and types"
-    columns:
-      - name: id
-        description: "Primary key"
-        tests:
-          - unique
-          - not_null
-      - name: skill_id
-        description: "Foreign key to dim_skills"
-        tests:
-          - not_null
-          - relationships:
-              to: ref('dim_skills')
-              field: id
-      - name: type_id
-        description: "Foreign key to dim_types"
-        tests:
-          - not_null
-          - relationships:
-              to: ref('dim_types')
-              field: id

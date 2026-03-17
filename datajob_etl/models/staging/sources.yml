@@ -3,6 +3,8 @@ version: 2
 sources:
   - name: raw
     description: "Raw data from job posting extraction"
+    database: job_posting # Especificar la base de datos
+    schema: public # Schema por defecto de PostgreSQL
     tables:
       - name: job_posting
         description: "Raw job posting data with all original fields"

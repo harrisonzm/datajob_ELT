@@ -24,6 +24,7 @@ sp.job_no_degree_mention,
 sp.job_health_insurance,
 
 -- Salary metrics
+
 sp.salary_rate_clean AS salary_rate,
         sp.salary_year_avg,
         sp.salary_hour_avg
@@ -31,6 +32,7 @@ sp.salary_rate_clean AS salary_rate,
     FROM {{ ref('stg_job_postings') }} sp
 
 -- LEFT JOINs to handle NULLs in dimensions
+
 LEFT JOIN {{ ref('dim_companies') }} dc 
         ON sp.company_name_clean = dc.name
     
@@ -44,7 +46,7 @@ LEFT JOIN {{ ref('dim_companies') }} dc
         ON sp.job_via_clean = dv.name
     
     LEFT JOIN {{ ref('dim_schedule_types') }} dst 
-        ON sp.job_schedule_type_clean = dst.name
+        ON sp.job_schedule_type = dst.name
     
     LEFT JOIN {{ ref('dim_short_titles') }} dsh 
         ON sp.job_title_short_clean = dsh.name

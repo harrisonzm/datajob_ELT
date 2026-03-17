@@ -2,9 +2,9 @@
 
 WITH unique_schedule_types AS (
     SELECT DISTINCT 
-        job_schedule_type_clean AS name
+        job_schedule_type AS name
     FROM {{ ref('stg_job_postings') }}
-    WHERE job_schedule_type_clean IS NOT NULL
+    WHERE job_schedule_type IS NOT NULL
 )
 
 SELECT ROW_NUMBER() OVER (
