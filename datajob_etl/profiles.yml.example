@@ -1,0 +1,17 @@
+# Ejemplo de profiles.yml para dbt
+# Este archivo se genera automáticamente desde las variables de entorno
+# No es necesario editarlo manualmente
+
+datajob_etl:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: localhost
+      port: 5432
+      user: postgres
+      password: tu_password
+      dbname: datajob_db
+      schema: public
+      threads: 4
+      keepalives_idle: 0

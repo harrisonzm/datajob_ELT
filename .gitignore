@@ -145,6 +145,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# dbt profiles with credentials
+datajob_etl/profiles.yml
+profiles.yml
+
 # Spyder project settings
 .spyderproject
 .spyproject
