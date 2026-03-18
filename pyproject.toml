@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Pipeline ETL para análisis de datos de empleos"
 authors = ["Harrison Zuleta Montoya <harrison.zmontoya@gmail.com>"]
 readme = "README.md"
+package-mode = false
 packages = [
     { include = "airflow_dags" },
     { include = "airflow_plugins" },
