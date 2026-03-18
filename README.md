@@ -700,8 +700,6 @@ Starting from the 3NF model, I would design a star schema for analytics.
 
 ## 12. Future Improvements
 
-- Full orchestration with Airflow.
-- CI/CD with GitHub Actions for linting, tests, and pipeline validation.
 - Data quality monitoring with alerts.
 - Incremental optimization of dbt models.
 - Exposure of metrics for an analytical dashboard.
