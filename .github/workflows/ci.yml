@@ -50,14 +50,13 @@ jobs:
 
       - name: Run flake8
         run: |
-          poetry run flake8 extraction/ db/ utils/ --count --select=E9,F63,F7,F82 --show-source --statistics || echo "Flake8 failed, trying alternative approach"
-          poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --exclude=.git,__pycache__,.venv,venv,dist,build,*.egg-info,.pytest_cache,datajob_etl/target,datajob_etl/dbt_packages
+          poetry run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics --include="*.py" --exclude=.git,__pycache__,.venv,venv,dist,build,*.egg-info,.pytest_cache,datajob_etl/target,datajob_etl/dbt_packages,airflow_logs,logs
 
       - name: Run flake8 complexity check
-        run: poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --exclude=.git,__pycache__,.venv,venv,dist,build,*.egg-info,.pytest_cache,datajob_etl/target,datajob_etl/dbt_packages
+        run: poetry run flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics --include="*.py" --exclude=.git,__pycache__,.venv,venv,dist,build,*.egg-info,.pytest_cache,datajob_etl/target,datajob_etl/dbt_packages,airflow_logs,logs
 
       - name: Run black check
-        run: poetry run black --check extraction/ db/ utils/
+        run: poetry run black --check . --exclude="/(\.git|__pycache__|\.venv|venv|dist|build|\.egg-info|\.pytest_cache|datajob_etl/target|datajob_etl/dbt_packages|airflow_logs|logs)/"
 
   test:
     name: Testing

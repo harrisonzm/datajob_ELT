@@ -29,7 +29,7 @@ jobs:
       - name: Run bandit security scan
         run: |
           poetry run pip install bandit
-          poetry run bandit -r extraction/ db/ utils/ -f json -o bandit-report.json || true
+          poetry run bandit -r . -f json -o bandit-report.json --exclude=./.git,./.__pycache__,./.venv,./venv,./dist,./build,./.pytest_cache,./datajob_etl/target,./datajob_etl/dbt_packages,./airflow_logs,./logs || true
 
       - name: Run safety check
         run: |
@@ -58,7 +58,7 @@ jobs:
       - name: Run mypy
         run: |
           poetry run pip install mypy types-requests
-          poetry run mypy extraction/ db/ utils/ --ignore-missing-imports || true
+          poetry run mypy . --ignore-missing-imports --exclude="(\.git|__pycache__|\.venv|venv|dist|build|\.egg-info|\.pytest_cache|datajob_etl|airflow_logs|logs)" || true
 
   complexity:
     name: Code Complexity
@@ -78,8 +78,8 @@ jobs:
 
       - name: Check cyclomatic complexity
         run: |
-          radon cc extraction/ db/ utils/ -a -nb
-          radon cc extraction/ db/ utils/ -a -nb --total-average
+          radon cc . -a -nb --exclude="*/.git/*,*/__pycache__/*,*/.venv/*,*/venv/*,*/dist/*,*/build/*,*/.pytest_cache/*,*/datajob_etl/*,*/airflow_logs/*,*/logs/*"
+          radon cc . -a -nb --total-average --exclude="*/.git/*,*/__pycache__/*,*/.venv/*,*/venv/*,*/dist/*,*/build/*,*/.pytest_cache/*,*/datajob_etl/*,*/airflow_logs/*,*/logs/*"
 
       - name: Check maintainability index
-        run: radon mi extraction/ db/ utils/ -nb
+        run: radon mi . -nb --exclude="*/.git/*,*/__pycache__/*,*/.venv/*,*/venv/*,*/dist/*,*/build/*,*/.pytest_cache/*,*/datajob_etl/*,*/airflow_logs/*,*/logs/*"

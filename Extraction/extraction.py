@@ -4,6 +4,7 @@ import time
 import logging
 import multiprocessing as mp
 from datetime import datetime
+from typing import Optional, List, Dict
 from db.config.db import engine, create_tables, drop_tables, get_db
 from sqlalchemy import String, Boolean, DateTime, Float, text
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
