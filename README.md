@@ -30,10 +30,53 @@ Este script ejecuta automáticamente:
 
 - **Pipeline ETL completo**: Extracción, transformación y carga de datos de empleos
 - **Procesamiento paralelizado**: Aprovecha múltiples cores de CPU para mayor velocidad
+- **Optimización automática**: Calcula chunk sizes y threads óptimos según tu sistema
 - **Configuración adaptativa**: dbt ajusta threads automáticamente según el sistema
 - **Sistema de logging robusto**: Trazabilidad completa de la ejecución del pipeline
 - **Tests automatizados**: Validación de calidad de datos y procesos
 - **Transformaciones con dbt**: Modelos analíticos y tests de calidad
+
+## ⚙️ Optimización Automática del Sistema
+
+El proyecto incluye utilidades para optimizar automáticamente la configuración según las especificaciones de tu sistema:
+
+### Ver especificaciones del sistema
+
+```bash
+python utils/system_optimizer.py
+```
+
+Esto mostrará:
+- CPU cores disponibles
+- Memoria RAM total y disponible
+- Threads recomendados para dbt
+- Chunk sizes óptimos para diferentes tamaños de dataset
+
+### Generar profiles.yml optimizado
+
+```bash
+python utils/generate_dbt_profile.py
+```
+
+Esto creará automáticamente `datajob_etl/profiles.yml` con:
+- Número óptimo de threads según tus CPU cores
+- Configuración de conexión desde variables de entorno (.env)
+- Configuraciones separadas para dev y prod
+
+### Cómo funciona la optimización
+
+El sistema calcula automáticamente:
+
+**Threads para dbt:**
+- 2-4 cores: 2-4 threads
+- 4-8 cores: 4-8 threads  
+- 8+ cores: hasta 12 threads (límite para evitar overhead)
+
+**Chunk size para extracción:**
+- Datasets pequeños (<100k): 10k-25k por chunk
+- Datasets medianos (100k-1M): 25k-50k por chunk
+- Datasets grandes (>1M): 50k-100k por chunk
+- Ajustado según memoria RAM disponible
 
 ## Sistema de Logging
 

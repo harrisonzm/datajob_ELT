@@ -49,6 +49,11 @@ try {
 
 Write-Host "`n--- INICIANDO PIPELINE ---`n" -ForegroundColor Cyan
 
+# Mostrar especificaciones del sistema
+Write-Host "Detectando especificaciones del sistema..." -ForegroundColor Yellow
+poetry run python utils/system_optimizer.py
+Write-Host ""
+
 # 0. Iniciar PostgreSQL
 Write-Host "[0/6] Iniciando PostgreSQL..." -ForegroundColor Yellow
 docker compose up -d db
@@ -88,14 +93,15 @@ if ($LASTEXITCODE -ne 0) {
 }
 Write-Host "✓ Tests de extracción completados`n" -ForegroundColor Green
 
-# 3. Configurar dbt
-Write-Host "[3/6] Configurando dbt (profiles.yml)..." -ForegroundColor Yellow
-poetry run python utils/setup_dbt_profile.py
+# 3. Configurar dbt con optimización automática
+Write-Host "[3/6] Configurando dbt con optimización automática..." -ForegroundColor Yellow
+Write-Host "  Detectando especificaciones del sistema..." -ForegroundColor Gray
+poetry run python utils/generate_dbt_profile.py
 if ($LASTEXITCODE -ne 0) {
     Write-Host "ERROR: Falló la configuración de dbt" -ForegroundColor Red
     exit 1
 }
-Write-Host "✓ dbt configurado`n" -ForegroundColor Green
+Write-Host "✓ dbt configurado con threads óptimos`n" -ForegroundColor Green
 
 # 4. Transformaciones dbt
 Write-Host "[4/6] Ejecutando transformaciones dbt..." -ForegroundColor Yellow
