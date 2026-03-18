@@ -1,4 +1,10 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    indexes=[
+        {'columns': ['id'], 'unique': True},
+        {'columns': ['name'], 'unique': True}
+    ]
+) }}
 
 WITH unique_schedule_types AS (
     SELECT DISTINCT 
@@ -11,4 +17,3 @@ SELECT ROW_NUMBER() OVER (
         ORDER BY name
     ) AS id, name
 FROM unique_schedule_types
-ORDER BY name

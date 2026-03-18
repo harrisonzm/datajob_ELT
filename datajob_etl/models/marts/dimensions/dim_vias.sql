@@ -1,4 +1,10 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    indexes=[
+        {'columns': ['id'], 'unique': True},
+        {'columns': ['name'], 'unique': True}
+    ]
+) }}
 
 WITH unique_vias AS (
     SELECT DISTINCT 
@@ -11,4 +17,3 @@ SELECT ROW_NUMBER() OVER (
         ORDER BY name
     ) AS id, name
 FROM unique_vias
-ORDER BY name

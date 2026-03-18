@@ -1,4 +1,10 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    indexes=[
+        {'columns': ['id'], 'unique': True},
+        {'columns': ['name'], 'unique': True}
+    ]
+) }}
 
 WITH unique_skills AS (
     SELECT DISTINCT 
@@ -11,4 +17,3 @@ SELECT ROW_NUMBER() OVER (
         ORDER BY skill_name
     ) AS id, skill_name AS name
 FROM unique_skills
-ORDER BY skill_name

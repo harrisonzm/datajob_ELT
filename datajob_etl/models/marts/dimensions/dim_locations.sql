@@ -1,4 +1,11 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    indexes=[
+        {'columns': ['id'], 'unique': True},
+        {'columns': ['location']},
+        {'columns': ['country_id']}
+    ]
+) }}
 
 
 WITH unique_locations AS (
@@ -10,9 +17,8 @@ WITH unique_locations AS (
 ),
 
 locations_with_country_id AS (
-    SELECT 
+    SELECT DISTINCT
         ul.location,
-        ul.country_name,
         dc.id AS country_id
     FROM unique_locations ul
     LEFT JOIN {{ ref('dim_countries') }} dc 
@@ -20,7 +26,6 @@ locations_with_country_id AS (
 )
 
 SELECT ROW_NUMBER() OVER (
-        ORDER BY location, country_name
+        ORDER BY location, country_id
     ) AS id, location, country_id
 FROM locations_with_country_id
-ORDER BY location, country_name

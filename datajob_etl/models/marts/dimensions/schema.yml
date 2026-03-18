@@ -17,6 +17,12 @@ models:
 
   - name: dim_companies
     description: "Dimension table for companies"
+    tests:
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "1=1"
+          config:
+            severity: warn
     columns:
       - name: id
         description: "Primary key"
@@ -28,6 +34,8 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.not_empty_string:
+              arguments: {}
 
   - name: dim_countries
     description: "Dimension table for countries"
@@ -73,6 +81,11 @@ models:
 
   - name: dim_skills
     description: "Dimension table for job skills"
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - name
     columns:
       - name: id
         description: "Primary key"
@@ -84,6 +97,8 @@ models:
         tests:
           - unique
           - not_null
+          - dbt_utils.not_empty_string:
+              arguments: {}
 
   - name: dim_types
     description: "Dimension table for skill types/categories"
@@ -115,5 +130,6 @@ models:
         description: "Foreign key to dim_countries"
         tests:
           - relationships:
-              to: ref('dim_countries')
-              field: id
+              arguments:
+                to: ref('dim_countries')
+                field: id
