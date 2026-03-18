@@ -6,6 +6,8 @@ import multiprocessing as mp
 from datetime import datetime
 from typing import Optional, List, Dict
 from db.config.db import engine, create_tables, drop_tables, get_db
+# Importar modelos para que SQLAlchemy los registre
+from db.data_models.job_posting import JobPosting
 from sqlalchemy import String, Boolean, DateTime, Float, text
 from sqlalchemy.dialects.postgresql import ARRAY, JSON
 from concurrent.futures import ThreadPoolExecutor
