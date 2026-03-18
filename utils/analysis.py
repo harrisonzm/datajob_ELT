@@ -7,6 +7,13 @@ def salary_by_job_category_analysis():
 
     df = pd.read_csv('./data_jobs.csv')
     
+    # Eliminar duplicados
+    initial_count = len(df)
+    df = df.drop_duplicates()
+    print(f'[*] Duplicados eliminados: {initial_count - len(df):,}')
+    print(f'[*] Registros únicos: {len(df):,}')
+    print()
+    
     print('ANÁLISIS DE SALARIOS POR CATEGORÍA DE TRABAJO')
     print('=' * 60)
     
@@ -121,6 +128,13 @@ def payment_analysis():
     import pandas as pd
 
     df = pd.read_csv('./data/data_jobs.csv')
+    
+    # Eliminar duplicados
+    initial_count = len(df)
+    df = df.drop_duplicates()
+    print(f'[*] Duplicados eliminados: {initial_count - len(df):,}')
+    print(f'[*] Registros únicos: {len(df):,}')
+    print()
 
     # Contar todas las ocurrencias
     job_rate = df['salary_rate'].str.isalnum().value_counts()
@@ -186,8 +200,15 @@ def aggregation_analysis():
 
     df = pd.read_csv('./data/data_jobs.csv')
     
+    # Eliminar duplicados
+    initial_count = len(df)
+    df = df.drop_duplicates()
+    duplicates_removed = initial_count - len(df)
+    
     # Imprimir el tamaño del dataset original como primer dato
-    print(f'Dataset original size: {df.shape[0]} filas, {df.shape[1]} columnas')
+    print(f'Dataset original size: {initial_count} filas, {df.shape[1]} columnas')
+    print(f'[*] Duplicados eliminados: {duplicates_removed:,}')
+    print(f'[*] Registros únicos: {len(df):,} filas')
     print('=' * 50)
     print(len(df['job_title_short'].str.strip().value_counts()))
     # Identificar columnas que no son de salary
@@ -310,7 +331,15 @@ def encoding_errors():
 def skills_analysis():
     import pandas as pd
     df = pd.read_csv('data_jobs.csv')
-    print(df['job_skills'])
-    print(df.iloc[785739]['job_type_skills'])  # Corregido: usar corchetes en lugar de paréntesis
     
+    # Eliminar duplicados
+    initial_count = len(df)
+    df = df.drop_duplicates()
+    print(f'[*] Duplicados eliminados: {initial_count - len(df):,}')
+    print(f'[*] Registros únicos: {len(df):,}')
+    print()
+    
+    print(df['job_skills'])
+    print(df.iloc[len(df)-1]['job_type_skills'])  # Usar el último índice válido
+
 skills_analysis()
