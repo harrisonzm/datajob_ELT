@@ -1,26 +1,9 @@
-[project]
+[tool.poetry]
 name = "datajob-etl"
 version = "0.1.0"
 description = "Pipeline ETL para análisis de datos de empleos"
-authors = [
-    {name = "Harrison Zuleta Montoya", email = "harrison.zmontoya@gmail.com"}
-]
+authors = ["Harrison Zuleta Montoya <harrison.zmontoya@gmail.com>"]
 readme = "README.md"
-requires-python = ">=3.12"
-dependencies = [
-    "sqlalchemy>=2.0.23",
-    "pydantic>=2.5.0",
-    "python-dotenv>=1.0.0",
-    "pytest>=7.4.3",
-    "pandas>=2.1.4",
-    "psycopg2-binary>=2.9.9",
-    "dbt-core>=1.7.4",
-    "dbt-postgres>=1.7.4",
-    "psutil>=5.9.0"
-]
-
-[tool.poetry]
-# No incluir packages para evitar problemas en CI
 
 [tool.poetry.dependencies]
 python = "^3.12"
