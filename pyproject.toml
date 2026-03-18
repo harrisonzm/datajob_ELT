@@ -7,7 +7,8 @@ readme = "README.md"
 packages = [
     { include = "extraction" },
     { include = "db" },
-    { include = "utils" }
+    { include = "utils" },
+    { include = "tests" }
 ]
 
 [tool.poetry.dependencies]
