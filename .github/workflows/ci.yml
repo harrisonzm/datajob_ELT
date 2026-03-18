@@ -102,8 +102,7 @@ jobs:
 
       - name: Create test CSV
         run: |
-          echo "job_title_short,job_title,job_location,job_via,job_schedule_type,job_work_from_home,search_location,job_posted_date,job_no_degree_mention,job_health_insurance,job_country,salary_rate,salary_year_avg,salary_hour_avg,company_name,job_skills,job_type_skills" > data_jobs.csv
-          echo "Data Engineer,Senior Data Engineer,New York NY,LinkedIn,Full-time,False,New York,2024-01-01,False,True,United States,year,120000.0,,Tech Corp,\"['python', 'sql']\",\"{\\\"programming\\\": [\\\"python\\\", \\\"sql\\\"]}\"" >> data_jobs.csv
+          cp test_data_sample.csv data_jobs.csv
 
       - name: Run main.py to setup data
         env:
@@ -184,8 +183,7 @@ jobs:
           DB_PASSWORD: postgres
           PYTHONPATH: .
         run: |
-          echo "job_title_short,job_title,job_location,job_via,job_schedule_type,job_work_from_home,search_location,job_posted_date,job_no_degree_mention,job_health_insurance,job_country,salary_rate,salary_year_avg,salary_hour_avg,company_name,job_skills,job_type_skills" > data_jobs.csv
-          echo "Data Engineer,Senior Data Engineer,New York NY,LinkedIn,Full-time,False,New York,2024-01-01,False,True,United States,year,120000.0,,Tech Corp,\"['python', 'sql']\",\"{\\\"programming\\\": [\\\"python\\\", \\\"sql\\\"]}\"" >> data_jobs.csv
+          cp test_data_sample.csv data_jobs.csv
           poetry run python main.py
 
       - name: Run dbt deps
