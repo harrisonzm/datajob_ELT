@@ -1,0 +1,44 @@
+version: 2
+
+tests:
+  - name: booleans_defined
+    description: "✓ Validar que campos booleanos estén correctamente definidos"
+
+  - name: bridge_job_skills
+    description: "✓ Validar integridad de la tabla puente job_skills"
+
+  - name: bridge_skill_types
+    description: "✓ Validar integridad de la tabla puente skill_types"
+
+  - name: dates_valid
+    description: "✓ Validar que las fechas sean válidas y estén en rango correcto"
+
+  - name: fks_valid
+    description: "✓ Validar que todas las foreign keys sean válidas"
+
+  - name: location_defined
+    description: "✓ Validar que las ubicaciones estén correctamente definidas"
+
+  - name: pks_defined
+    description: "✓ Validar que todas las primary keys sean únicas y no nulas"
+
+  - name: required_fields
+    description: "✓ Validar que los campos requeridos no sean nulos"
+
+  - name: salary_consistent
+    description: "✓ Validar consistencia entre salary_rate y valores de salario"
+
+  - name: salary_exclusive
+    description: "✓ Validar que salary_year_avg y salary_hour_avg sean mutuamente exclusivos"
+
+  - name: salary_ranges
+    description: "✓ Validar que los salarios estén dentro de rangos razonables"
+
+  - name: schedule_normalized
+    description: "✓ Validar que job_schedule_type esté normalizado"
+
+  - name: validate_no_duplicates
+    description: "✓ Validar que no existan duplicados en ninguna tabla"
+
+  - name: via_cleaned
+    description: "✓ Validar que job_via esté correctamente limpiado"

@@ -13,20 +13,20 @@ WITH bridge_integrity AS (
     
     UNION ALL
 
--- Verificar que skill_type_id existe en skill_types
+-- Verificar que skill_types_id existe en skill_types
 SELECT 
-        'orphan_skill_type_id' as issue_type,
+        'orphan_skill_types_id' as issue_type,
         COUNT(*) as issue_count
     FROM {{ ref('job_skills') }} js
-    LEFT JOIN {{ ref('skill_types') }} st ON js.skill_type_id = st.id
+    LEFT JOIN {{ ref('skill_types') }} st ON js.skill_types_id = st.id
     WHERE st.id IS NULL
     
     UNION ALL
 
--- Verificar que no hay duplicados en la combinación job_id + skill_type_id
+-- Verificar que no hay duplicados en la combinación job_id + skill_types_id
 SELECT 
         'duplicate_combinations' as issue_type,
-        COUNT(*) - COUNT(DISTINCT CONCAT(job_id, '-', skill_type_id)) as issue_count
+        COUNT(*) - COUNT(DISTINCT CONCAT(job_id, '-', skill_types_id)) as issue_count
     FROM {{ ref('job_skills') }}
 )
 
