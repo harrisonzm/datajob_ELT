@@ -24,7 +24,7 @@ jobs:
         uses: snok/install-poetry@v1
 
       - name: Install dependencies
-        run: poetry install --no-interaction --only=main
+        run: poetry install --no-interaction --only=main --no-root
 
       - name: Run bandit security scan
         run: |
@@ -53,7 +53,7 @@ jobs:
         uses: snok/install-poetry@v1
 
       - name: Install dependencies
-        run: poetry install --no-interaction --only=main
+        run: poetry install --no-interaction --only=main --no-root
 
       - name: Run mypy
         run: |

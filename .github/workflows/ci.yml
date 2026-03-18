@@ -36,7 +36,7 @@ jobs:
 
       - name: Install dependencies only
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --no-interaction --only=main
+        run: poetry install --no-interaction --only=main --no-root
 
       - name: Install linting tools
         run: |
@@ -86,7 +86,7 @@ jobs:
           virtualenvs-in-project: true
 
       - name: Install dependencies
-        run: poetry install --no-interaction --only=main
+        run: poetry install --no-interaction --only=main --no-root
 
       - name: Install test dependencies
         run: |
@@ -143,7 +143,7 @@ jobs:
           virtualenvs-in-project: true
 
       - name: Install dependencies
-        run: poetry install --no-interaction --only=main
+        run: poetry install --no-interaction --only=main --no-root
 
       - name: Generate dbt profile
         env:
