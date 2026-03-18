@@ -33,11 +33,16 @@ models:
     example:
       +materialized: view
 
-    # Staging models - views for fast transformation
+    # Staging models - tables para mejor performance
     staging:
-      +materialized: view
+      +materialized: table
       +docs:
         node_color: "lightblue"
+      stg_job_skills:
+        +indexes:
+          - columns: ["job_posting_id"]
+          - columns: ["skill_name"]
+          - columns: ["type_name"]
 
     # Future dimensional models - tables for performance
     marts:

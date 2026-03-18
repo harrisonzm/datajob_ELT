@@ -1,32 +1,31 @@
-{{ config(materialized='view') }}
+{{ config(
+    materialized='incremental',
+    unique_key='job_posting_id',
+    on_schema_change='fail'
+) }}
+
 
 WITH source_data AS (
-    SELECT * FROM {{ ref('stg_job_postings') }}
-),
-
--- Descomponer job_skills array en filas individuales
-job_skills_unnested AS (
-    SELECT
-        id AS job_posting_id,
-        TRIM(skill) AS skill_name,
-        'direct' AS skill_source,
-        NULL AS type_name
-    FROM source_data, UNNEST (job_skills) AS skill
-    WHERE
-        job_skills IS NOT NULL
-        AND skill IS NOT NULL
-        AND TRIM(skill) != ''
+    SELECT 
+        id,
+        job_type_skills
+    FROM {{ ref('stg_job_postings') }}
+    WHERE job_type_skills IS NOT NULL
+    
+    {% if is_incremental() %}
+    -- Solo procesar registros nuevos en ejecuciones incrementales
+    AND id > (SELECT MAX(job_posting_id) FROM {{ this }})
+    {% endif %}
 )
 
--- Por ahora solo procesamos job_skills (arrays simples)
--- TODO: Agregar job_type_skills (JSON) en una segunda iteración
+-- Descomponer job_type_skills JSON en una sola pasada
 SELECT
-    job_posting_id,
-    LOWER(TRIM(skill_name)) AS skill_name,
-    type_name,
-    skill_source
-FROM job_skills_unnested
-WHERE
-    skill_name IS NOT NULL
-    AND TRIM(skill_name) != ''
-ORDER BY job_posting_id, skill_name
+    id AS job_posting_id,
+    LOWER(TRIM(skill_value)) AS skill_name,
+    LOWER(TRIM(type_key)) AS type_name
+FROM source_data,
+LATERAL jsonb_each(job_type_skills::jsonb) AS types(type_key, skills_array),
+LATERAL jsonb_array_elements_text(skills_array) AS skill_value
+WHERE 
+    skill_value IS NOT NULL
+    AND TRIM(skill_value) != ''
