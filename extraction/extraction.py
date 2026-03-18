@@ -25,6 +25,10 @@ def setup_logging(log_level=logging.INFO):
 
     logger.setLevel(log_level)
 
+    # Crear directorio logs si no existe
+    import os
+    os.makedirs("logs", exist_ok=True)
+
     # Handler para consola
     console_handler = logging.StreamHandler()
     console_handler.setLevel(log_level)
