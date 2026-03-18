@@ -148,6 +148,11 @@ venv.bak/
 # dbt profiles with credentials
 datajob_etl/profiles.yml
 profiles.yml
+# dbt
+datajob_etl/profiles.yml
+datajob_etl/target/
+datajob_etl/dbt_packages/
+datajob_etl/logs/
 
 # Spyder project settings
 .spyderproject
