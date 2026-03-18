@@ -191,26 +191,6 @@ def skills_parser(df):
     logger.info("Procesamiento de skills completado")
     return df
 
-# Función no usada - mantenida para referencia
-# def insert_chunk_parallel(chunk_data):
-#     """Función auxiliar para insertar un chunk en paralelo"""
-#     chunk_df, chunk_num, dtype_dict = chunk_data
-#     
-#     try:
-#         chunk_df.to_sql(
-#             'job_posting',
-#             engine,
-#             if_exists='append',
-#             index=False,
-#             method='multi',
-#             chunksize=5000,
-#             dtype=dtype_dict
-#         )
-#         return (chunk_num, len(chunk_df), True)
-#     except Exception as e:
-#         logger.error(f"Error en chunk {chunk_num}: {str(e)}")
-#         return (chunk_num, len(chunk_df), False)
-
 def load_optimized_fast(path: str) -> bool:
     """
     Carga optimizada con configuración óptima de chunks
