@@ -14,43 +14,49 @@ models:
         description: "Foreign key to dim_companies (nullable)"
         tests:
           - relationships:
-              to: ref('dim_companies')
-              field: id
+              arguments:
+                to: ref('dim_companies')
+                field: id
 
       - name: country_id
         description: "Foreign key to dim_countries (nullable)"
         tests:
           - relationships:
-              to: ref('dim_countries')
-              field: id
+              arguments:
+                to: ref('dim_countries')
+                field: id
 
       - name: location_id
         description: "Foreign key to dim_locations (nullable)"
         tests:
           - relationships:
-              to: ref('dim_locations')
-              field: id
+              arguments:
+                to: ref('dim_locations')
+                field: id
 
       - name: via_id
         description: "Foreign key to dim_vias (nullable)"
         tests:
           - relationships:
-              to: ref('dim_vias')
-              field: id
+              arguments:
+                to: ref('dim_vias')
+                field: id
 
       - name: schedule_type_id
         description: "Foreign key to dim_schedule_types (nullable)"
         tests:
           - relationships:
-              to: ref('dim_schedule_types')
-              field: id
+              arguments:
+                to: ref('dim_schedule_types')
+                field: id
 
       - name: short_title_id
         description: "Foreign key to dim_short_titles (nullable)"
         tests:
           - relationships:
-              to: ref('dim_short_titles')
-              field: id
+              arguments:
+                to: ref('dim_short_titles')
+                field: id
 
       - name: job_title
         description: "Full job title (transactional data)"
@@ -75,6 +81,24 @@ models:
 
       - name: salary_year_avg
         description: "Average yearly salary"
+        tests:
+          - not_null:
+              arguments:
+                where: "salary_rate = 'year'"
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 10000
+                max_value: 1000000
+                where: "salary_year_avg is not null"
 
       - name: salary_hour_avg
         description: "Average hourly salary"
+        tests:
+          - not_null:
+              arguments:
+                where: "salary_rate = 'hour'"
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 5
+                max_value: 500
+                where: "salary_hour_avg is not null"

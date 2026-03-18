@@ -1,4 +1,14 @@
-{{ config(materialized='table') }}
+{{ config(
+    materialized='table',
+    indexes=[
+        {'columns': ['id'], 'unique': True},
+        {'columns': ['company_id'], 'type': 'btree'},
+        {'columns': ['country_id'], 'type': 'btree'},
+        {'columns': ['location_id'], 'type': 'btree'},
+        {'columns': ['short_title_id'], 'type': 'btree'},
+        {'columns': ['job_posted_date'], 'type': 'btree'}
+    ]
+) }}
 
 WITH job_posts_with_lookups AS (
     SELECT 
@@ -24,7 +34,6 @@ sp.job_no_degree_mention,
 sp.job_health_insurance,
 
 -- Salary metrics
-
 sp.salary_rate_clean AS salary_rate,
         sp.salary_year_avg,
         sp.salary_hour_avg
@@ -32,7 +41,6 @@ sp.salary_rate_clean AS salary_rate,
     FROM {{ ref('stg_job_postings') }} sp
 
 -- LEFT JOINs to handle NULLs in dimensions
-
 LEFT JOIN {{ ref('dim_companies') }} dc 
         ON sp.company_name_clean = dc.name
     
@@ -41,6 +49,7 @@ LEFT JOIN {{ ref('dim_companies') }} dc
     
     LEFT JOIN {{ ref('dim_locations') }} dl 
         ON sp.job_location_clean = dl.location
+        AND dco.id = dl.country_id
     
     LEFT JOIN {{ ref('dim_vias') }} dv 
         ON sp.job_via_clean = dv.name
@@ -70,4 +79,3 @@ SELECT
     salary_year_avg,
     salary_hour_avg
 FROM job_posts_with_lookups
-ORDER BY id
