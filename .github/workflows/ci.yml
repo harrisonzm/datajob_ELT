@@ -115,6 +115,24 @@ jobs:
         run: |
           poetry run python main.py
 
+      - name: Generate dbt profile
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: job_posting
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          PYTHONPATH: .
+        run: poetry run python utils/generate_dbt_profile.py
+
+      - name: Run dbt deps
+        working-directory: datajob_etl
+        run: poetry run dbt deps
+
+      - name: Run dbt run to create tables
+        working-directory: datajob_etl
+        run: poetry run dbt run
+
       - name: Run pytest
         env:
           DB_HOST: localhost
