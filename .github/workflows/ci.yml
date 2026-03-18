@@ -140,7 +140,7 @@ jobs:
         env:
           PGPASSWORD: postgres
         run: |
-          psql -h localhost -U postgres -d job_posting -c "\dt job_posting.*"
+          psql -h localhost -U postgres -d job_posting -c "\dt public_job_posting.*"
 
       - name: Run pytest (extraction tests only)
         env:

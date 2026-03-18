@@ -4,7 +4,7 @@ from db.config.db import engine
 
 
 def dbt_table(table_name):
-    return f"job_posting.{table_name}"
+    return f"public_job_posting.{table_name}"
 
 
 class TestBusinessLogic:
