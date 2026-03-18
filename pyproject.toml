@@ -9,8 +9,6 @@ packages = [
     { include = "db" },
     { include = "utils" },
     { include = "tests" },
-    { include = "datajob_etl" },
-    { include = "plugins" },
     { include = "logs" }
 ]
 
